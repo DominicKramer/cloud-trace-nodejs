@@ -121,7 +121,7 @@ function activate(agent) {
   // hook into Module._load so that we can hook into userspace frameworks
   shimmer.wrap(Module, '_load', function(originalModuleLoad) {
     function loadAndPatch(instrumentation, moduleRoot, version) {
-      if (!instrumentation.patches[moduleRoot]) {
+      if (!instrumentation.patches || !instrumentation.patches[moduleRoot]) {
         instrumentation.patches[moduleRoot] = {};
       }
       var patchSet = instrumentation.patches[moduleRoot][version];
@@ -163,7 +163,7 @@ function activate(agent) {
     }
 
     function moduleAlreadyPatched(instrumentation, moduleRoot) {
-      if (!instrumentation.patches[moduleRoot]) {
+      if (!instrumentation.patches || !instrumentation.patches[moduleRoot]) {
         return false;
       }
       var modulePatch = instrumentation.patches[moduleRoot];
