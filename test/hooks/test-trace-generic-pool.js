@@ -59,7 +59,11 @@ describe('generic-pool', function() {
         fn();
       }).then(function() {
         var trace = agent.private_().traceWriter.buffer_[0];
-        assert.strictEqual(JSON.parse(trace).spans.length, 2);
+        var spans = JSON.parse(trace).spans;
+        assert.ok(spans);
+        assert.strictEqual(spans.length, 2);
+        assert.strictEqual(spans[0].name, rootSpanName);
+        assert.strictEqual(spans[1].name, childSpanName);
       });
     });
 
